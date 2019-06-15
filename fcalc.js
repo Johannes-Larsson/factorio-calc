@@ -1,7 +1,13 @@
 #!/usr/bin/node
-
+const chalk = require('chalk');
 const recipes = require('./recipe.json');
 const assemblers = require('./assembling-machine.json');
+
+// round num to p places
+function round(num, p) {
+  let m = Math.pow(10, p);
+  return Math.round(num * m) / m;
+}
 
 /*
  * recursively sums up ingredients, storing them in the dictionary called acc
@@ -68,11 +74,13 @@ function printIngredients(ingredients) {
   });
 
   for (let e of arr) {
-    console.log(e.name + ": " + e.amount);
+    console.log(chalk.bold.underline(e.name) + ": " + round(e.amount, 2));
     if (e.times) {
       for (let t of e.times) {
-        console.log(t);
+        //console.log(chalk.underline(t.name) + ": " + round(t.time, 3));
+        console.log(t.name + ": " + round(t.time, 3));
       }
+      console.log();
     }
   }
 }
@@ -123,7 +131,7 @@ if (process.argv[3]) {
 }
 
 if (!rec) {
-  console.log('ERROR: no recipe specified');
+  console.log(chalk.red('ERROR: no recipe specified'));
   console.log('Usage: ./fcalc.js item [amount]');
   process.exit(1);
 }

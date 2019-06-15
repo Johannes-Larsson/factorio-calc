@@ -1,2 +1,5 @@
 assembling-machine.json
 recipe.json
+node_modules/
+package-lock.json
+
