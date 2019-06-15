@@ -1,6 +1,6 @@
 ## Installation
 The program reads data from two json-files called assembling-machine.json and recipe.json.
-To obtain these, you need to install [this mod]() for factorio, which will export these files for you.
+To obtain these, you need to install [this mod](https://mods.factorio.com/mod/recipelister/) for factorio, which will export these files for you.
 (I wont distribute them because I'm not sure it would be legal.)
 Follow the instructions on that page and copy them into this directory.
 
