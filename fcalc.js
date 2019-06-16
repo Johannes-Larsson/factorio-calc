@@ -57,6 +57,17 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
   return acc;
 }
 
+// returns a string like (iron-gear-wheel 1, iron-plate 1)
+function makeIngredientString(recipe, amount) {
+  let rec = recipes[recipe];
+  let ret = '(';
+  for (let ing of rec.ingredients) {
+    if (ret != '(') ret += ', ';
+    ret += ing.name + ' ' + round(ing.amount * amount, 2);
+  }
+  return ret + ')';
+}
+
 // this adds a name property to each object in the map which is a bit ugly
 function printIngredients(ingredients) {
   let arr = [];
@@ -74,14 +85,14 @@ function printIngredients(ingredients) {
   });
 
   for (let e of arr) {
-    console.log(chalk.bold.underline(e.name) + ": " + round(e.amount, 2));
+    console.log(chalk.bold.underline.inverse(e.name) + ": " + round(e.amount, 2));
+    console.log(chalk.bold(makeIngredientString(e.name, e.amount)));
     if (e.times) {
       for (let t of e.times) {
-        //console.log(chalk.underline(t.name) + ": " + round(t.time, 3));
-        console.log(t.name + ": " + round(t.time, 3));
+        console.log(t.name + ": " + chalk.bold(round(t.time, 3)));
       }
-      console.log();
     }
+    console.log();
   }
 }
 
