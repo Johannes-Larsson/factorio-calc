@@ -59,11 +59,19 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
 
 // returns a string like (iron-gear-wheel 1, iron-plate 1)
 function makeIngredientString(recipe, amount) {
+  if (!(recipe in recipes)) return false;
   let rec = recipes[recipe];
   let ret = '(';
   for (let ing of rec.ingredients) {
     if (ret != '(') ret += ', ';
-    ret += ing.name + ' ' + round(ing.amount * amount, 2);
+    let amountPer = 1;
+    let prods = rec.products;
+    for (let j = 0; j < prods.length; j++) {
+      if (prods[j].name == recipe) {
+        amountPer = prods[j].amount;
+      }
+    }
+    ret += ing.name + ' ' + round(ing.amount * amount / amountPer, 2);
   }
   return ret + ')';
 }
@@ -86,13 +94,14 @@ function printIngredients(ingredients) {
 
   for (let e of arr) {
     console.log(chalk.bold.underline.inverse(e.name) + ": " + round(e.amount, 2));
-    console.log(chalk.bold(makeIngredientString(e.name, e.amount)));
+    let ingStr = makeIngredientString(e.name, e.amount);
+    if (ingStr) console.log(chalk.bold(ingStr));
     if (e.times) {
       for (let t of e.times) {
         console.log(t.name + ": " + chalk.bold(round(t.time, 3)));
       }
     }
-    console.log();
+    if (ingStr) console.log();
   }
 }
 
