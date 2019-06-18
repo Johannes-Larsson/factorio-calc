@@ -141,22 +141,37 @@ function calculateTimes(recipe, amount) {
   else return ret;
 }
 
-let rec = process.argv[2]
 
-let amount;
-if (process.argv[3]) {
-  amount = process.argv[3];
-} else {
-  amount = 1;
+let prods = [];
+let lastWasNum = false;
+
+for (const arg of process.argv.slice(2)) {
+  if (isNaN(arg)) {
+    prods.push({ "name": arg, "amount": 1});
+    lastWasNum = false;
+  } else {
+    if (prods.length > 0 && !lastWasNum) {
+      prods[prods.length-1].amount = arg;
+      lastWasNum = true;
+    } else {
+      console.log(chalk.red('ERROR: specify a recipe first'));
+      console.log('Usage: ./fcalc.js item [amount] [item [amount] .. ]');
+      process.exit(1);
+    }
+  }
 }
 
-if (!rec) {
+if (prods.length == 0) {
   console.log(chalk.red('ERROR: no recipe specified'));
-  console.log('Usage: ./fcalc.js item [amount]');
+  console.log('Usage: ./fcalc.js item [amount] [item [amount] .. ]');
   process.exit(1);
 }
 
-let recipe = recipes[rec];
 
-let ingredients = processIngredient({ "name": rec, "amount": amount });
+let ingredients;
+
+for (let rec of prods) {
+  ingredients = processIngredient(rec, ingredients);
+}
+
 printIngredients(ingredients);
