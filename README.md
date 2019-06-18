@@ -9,18 +9,18 @@ for factorio, which will export these files for you.
 (I won't distribute them because I'm not sure it would be legal.)
 Follow the instructions on that page and copy them into this directory.
 
-Finally, run 
+Finally, run
 `npm install`
 and you're good to go!
 
 
 ## Usage
-`./fcalc.js recipe [amount]`
+`./fcalc.js recipe [amount] [another-recipe [amount] ..]`
 
-Where recipe is the name of a thing you want to make, for example electronic-circuit for 
+Where recipe is the name of a thing you want to make, for example electronic-circuit for
 regular green circuits.
 
-By default it calculates the resources and time to make one. 
+By default it calculates the resources and time to make one.
 You can change this by specifying an amount.
 
 The program sums up every ingredient used in the recipe, down to the raw resources.
