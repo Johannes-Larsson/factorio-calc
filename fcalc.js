@@ -2,6 +2,7 @@
 const chalk = require('chalk');
 const recipes = require('./recipe.json');
 const assemblers = require('./assembling-machine.json');
+const interval = require('./interval.js').intp;
 
 // round num to p places
 function round(num, p) {
@@ -146,12 +147,13 @@ let prods = [];
 let lastWasNum = false;
 
 for (const arg of process.argv.slice(2)) {
-  if (isNaN(arg)) {
+  let intv = interval(arg);
+  if (intv == -1) {
     prods.push({ "name": arg, "amount": 1});
     lastWasNum = false;
   } else {
     if (prods.length > 0 && !lastWasNum) {
-      prods[prods.length-1].amount = arg;
+      prods[prods.length-1].amount = intv;
       lastWasNum = true;
     } else {
       console.log(chalk.red('ERROR: specify a recipe first'));
