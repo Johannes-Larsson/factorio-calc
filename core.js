@@ -35,6 +35,25 @@ function calculateTimes(recipe, amount) {
   else return ret;
 }
 
+/* Get ingredients with proper amounts for the recipe */
+function getIngredients(recipe, amount) {
+  if (!(recipe in recipes)) return false;
+
+  let ret = {};
+  let rec = recipes[recipe];
+  let amountPer = 1;
+  let prods = rec.products;
+  for (let j = 0; j < prods.length; j++) {
+    if (prods[j].name == recipe) {
+      amountPer = prods[j].amount;
+    }
+  }
+  for (let ing of rec.ingredients) {
+    ret[ing.name] = ing.amount * amount / amountPer;
+  }
+  return ret;
+}
+
 /* recursively sums up ingredients, storing them in the dictionary called acc
  * ing is an object like { name: 'thename', amount: 1 }
  * amounMultiplier is an optional additional multiplier that applies to the amount */
@@ -78,10 +97,18 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
       acc = processIngredient(i, acc, localMult * amountMultiplier * ing.amount, tier + 1)
     }
   }
+  for (k in acc) {
+    if (acc[k].ingredients) continue;
+    const i = getIngredients(k, acc[k].amount);
+    if (i) {
+      acc[k].ingredients = i;
+    }
+  }
   return acc;
 }
 
 module.exports = {
   processIngredient,
-  calculateTimes
+  calculateTimes,
+  getIngredients
 };

@@ -11,20 +11,13 @@ function round(num, p) {
 
 
 // returns a string like (iron-gear-wheel 1, iron-plate 1)
-function makeIngredientString(recipe, amount) {
-  if (!(recipe in recipes)) return false;
-  let rec = recipes[recipe];
+function makeIngredientString(ingredients) {
   let ret = '(';
-  for (let ing of rec.ingredients) {
-    if (ret != '(') ret += ', ';
-    let amountPer = 1;
-    let prods = rec.products;
-    for (let j = 0; j < prods.length; j++) {
-      if (prods[j].name == recipe) {
-        amountPer = prods[j].amount;
-      }
+  for (i in ingredients) {
+    if (ret != '(') {
+      ret += ', ';
     }
-    ret += ing.name + ' ' + round(ing.amount * amount / amountPer, 2);
+    ret += `${i}: ${ingredients[i]}`;
   }
   return ret + ')';
 }
@@ -47,14 +40,15 @@ function printIngredients(ingredients) {
 
   for (let e of arr) {
     console.log(chalk.bold.underline.inverse(e.name) + ": " + round(e.amount, 2));
-    let ingStr = makeIngredientString(e.name, e.amount);
-    if (ingStr) console.log(chalk.bold(ingStr));
+    if (e.ingredients) {
+      console.log(chalk.bold(makeIngredientString(e.ingredients)));
+    }
     if (e.times) {
       for (let t of e.times) {
         console.log(t.name + ": " + chalk.bold(round(t.time, 3)));
       }
     }
-    if (ingStr) console.log();
+    if (e.ingredients) console.log();
   }
 }
 
