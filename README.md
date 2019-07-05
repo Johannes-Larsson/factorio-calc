@@ -25,7 +25,7 @@ It can also be a fraction with or without unit, for example `2/3` is two every t
 If no amount is specified, the default is one per second.
 
 Format can be 
-- `human` - for human readable output, which includes info about assembling machines
+- `human` (default) - for human readable output, which includes info about assembling machines
 - `json` - a json object containing essentially the same info as above, minus assembling machine stuff
 - `graphviz`  ouputs a digraph you can pipe into graphviz, for example `./fcalc.js -f graphviz electronic-circuit | dot -T png -o tmp.png && feh tmp.png` to create and show tmp.png showing a graph representing the recipe for electronic circuit.
 
