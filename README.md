@@ -15,7 +15,7 @@ and you're good to go!
 
 
 ## Usage
-`./fcalc.js recipe [amount] [another-recipe [amount] ..]`
+`./fcalc.js [-f|--format format] recipe [amount] [another-recipe [amount] ..]`
 
 Where recipe is the name of a thing you want to make, for example electronic-circuit for
 regular green circuits.
@@ -24,8 +24,10 @@ The amount can be specified as a number by itself, for example 3 meaning three p
 It can also be a fraction with or without unit, for example `2/3` is two every three senconds or `1/h` is one per hour, and so on.
 If no amount is specified, the default is one per second.
 
-By default it calculates the resources and time to make one.
-You can change this by specifying an amount.
+Format can be 
+- `human` - for human readable output, which includes info about assembling machines
+- `json` - a json object containing essentially the same info as above, minus assembling machine stuff
+- `graphviz`  ouputs a digraph you can pipe into graphviz, for example `./fcalc.js -f graphviz electronic-circuit | dot -T png -o tmp.png && feh tmp.png` to create and show tmp.png showing a graph representing the recipe for electronic circuit.
 
 The program sums up every ingredient used in the recipe, down to the raw resources.
 It then displays, for each one where applicable, options of assembling machines and how long they take, i.e.
