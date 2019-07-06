@@ -43,6 +43,8 @@ for (let rec of prods) {
   ingredients = core.processIngredient(rec, ingredients);
 }
 
+ingredients = core.addIngredients(ingredients);
+
 switch (format) {
   case 'human':
     humanFormat(ingredients);

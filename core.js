@@ -14,7 +14,6 @@ function calculateTimes(recipe, amount) {
   if (!rec) {
     return false;
   }
-  //console.log(rec);
 
   for (let m in assemblers) {
     if (rec.category in assemblers[m].crafting_categories) {
@@ -86,7 +85,6 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
     if (recipes[ing.name].category == "smelting") return acc;
 
     for (let i of recipes[ing.name].ingredients) {
-      // need to adjust the amountMultiplier for the amount of products produced here
       let localMult;
       let prods = recipes[ing.name].products;
       for (let j = 0; j < prods.length; j++) {
@@ -97,8 +95,16 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
       acc = processIngredient(i, acc, localMult * amountMultiplier * ing.amount, tier + 1)
     }
   }
+  return acc;
+}
+
+/* go through each ingredient in the accumulator and add an ingredient property to it,
+ * listing its ingredients and their amounts */
+function addIngredients(acc) {
   for (k in acc) {
-    if (acc[k].ingredients) continue;
+    if (acc[k].ingredients) {
+      continue;
+    }
     const i = getIngredients(k, acc[k].amount);
     if (i) {
       acc[k].ingredients = i;
@@ -110,5 +116,6 @@ function processIngredient(ing, accumulator, amountMultiplier, tier) {
 module.exports = {
   processIngredient,
   calculateTimes,
+  addIngredients,
   getIngredients
 };
